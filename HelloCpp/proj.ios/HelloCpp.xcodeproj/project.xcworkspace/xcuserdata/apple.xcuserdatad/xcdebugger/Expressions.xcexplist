@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "tinyxml2::XMLDocument::LoadFile(char const*):tinyxml2.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "filename">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "b2PolygonShape::Set(b2Vec2 const*, int):b2PolygonShape.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "b2_epsilon">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HelloWorld::init():HelloWorldScene.mm">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

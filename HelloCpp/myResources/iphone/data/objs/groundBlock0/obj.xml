@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<myObj name="groundBlock0">
+    <!--box2d body-->
+    <body>
+        <bodyType>staticBody</bodyType>
+        <fixture>
+            <shape>
+                <shapeType>polygon</shapeType>
+                <c>0 0</c>
+                <r>0</r>
+                <rxy>576 96</rxy>
+                <rot>0</rot>
+                <vertices></vertices>
+            </shape>
+            <friction>0.5</friction>
+            <restitution>0</restitution>
+            <density>0</density>
+            <isSensor>0</isSensor>
+            <filter>
+                <categoryBits>1</categoryBits><!--0x0001-->
+                <maskBits>65535</maskBits><!--0xFFFF-->
+                <groupIndex>0</groupIndex>
+            </filter>
+        </fixture>
+        <pos>192 32</pos>
+        <rot>0</rot>
+        <gravityScale>1</gravityScale>
+    </body>
+    <!--cocos2d-x sprite-->
+    <sprite>
+        <texImage>data/objs/groundBlock0/roadStone.png</texImage>
+        <anchorPoint>0.5 0.5</anchorPoint>
+        <pos>0 0</pos>
+    </sprite>
+</myObj>
+

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0"?>
+<myObj name="slope0">
+    <!--box2d body-->
+    <body>
+        <bodyType>staticBody</bodyType>
+        <fixture>
+            <shape>
+                <shapeType>polygon</shapeType>
+                <c>0 0</c>
+                <r>0</r>
+                <rxy>0 0</rxy>
+                <rot>0</rot>
+                <vertices>0 0 192 0 0 192</vertices>
+            </shape>
+            <friction>0.5</friction>
+            <restitution>0</restitution>
+            <density>0</density>
+            <isSensor>0</isSensor>
+            <filter>
+                <categoryBits>1</categoryBits><!--0x0001-->
+                <maskBits>65535</maskBits><!--0xFFFF-->
+                <groupIndex>0</groupIndex>
+            </filter>
+        </fixture>
+        <pos>768 -64</pos>
+        <rot>0</rot>
+        <gravityScale>1</gravityScale>
+    </body>
+    <!--cocos2d-x sprite-->
+    <sprite>
+        <texImage>data/objs/slope0/slope.png</texImage>
+        <anchorPoint>0 0</anchorPoint>
+        <pos>0 0</pos>
+    </sprite>
+</myObj>
+

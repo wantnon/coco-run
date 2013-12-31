@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--all length is in pixel, if need to convert to box2d space measurement, we need to div PTM_RATIO(32)-->
+<!--each myObj include 0 or 1 body and 1 sprite-->
+<myObj name="stone0">
+    <!--box2d body-->
+    <body>
+        <bodyType>dynamicBody</bodyType>
+        <fixture>
+            <shape>
+                <shapeType>polygon</shapeType>
+                <c>0 0</c>
+                <r>0</r>
+                <rxy>64 64</rxy>
+                <rot>0</rot>
+                <vertices></vertices>
+            </shape>
+            <friction>0.5</friction>
+            <restitution>0</restitution>
+            <density>10</density>
+            <isSensor>0</isSensor>
+            <filter>
+                <categoryBits>1</categoryBits><!--0x0001-->
+                <maskBits>65535</maskBits><!--0xFFFF-->
+                <groupIndex>0</groupIndex>
+            </filter>
+        </fixture>
+        <pos>-100 150</pos>
+        <rot>0</rot>
+        <gravityScale>1</gravityScale>
+    </body>
+    <!--cocos2d-x sprite-->
+    <sprite>
+        <texImage>data/objs/stone0/stone.png</texImage>
+        <anchorPoint>0.5 0.5</anchorPoint>
+        <pos>0 0</pos><!--pos make sense, when obj has no body attached-->
+    </sprite>
+</myObj>
+
+
