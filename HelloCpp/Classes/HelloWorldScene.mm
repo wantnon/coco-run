@@ -233,42 +233,42 @@ void HelloWorld::weixinShare(CCObject *senderz, cocos2d::extension::CCControlEve
 
 
 void HelloWorld::rightKeyDown(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->turnToRight();
+    pPlayer->forcedTurnToRight();
 }
 
 void HelloWorld::rightKeyUpInside(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->turnToStill();
+    pPlayer->forcedTurnToStill();
     
 }
 void HelloWorld::rightKeyDragExit(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->turnToStill();
+    pPlayer->forcedTurnToStill();
 
 }
 void HelloWorld::rightKeyDragEnter(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->turnToRight();
+    pPlayer->forcedTurnToRight();
 }
 
 void HelloWorld::leftKeyDown(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->turnToLeft();
+    pPlayer->forcedTurnToLeft();
 
 }
 
 void HelloWorld::leftKeyUpInside(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->turnToStill();
+    pPlayer->forcedTurnToStill();
     
 }
 void HelloWorld::leftKeyDragExit(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->turnToStill();
+    pPlayer->forcedTurnToStill();
 
 }
 void HelloWorld::leftKeyDragEnter(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->turnToLeft();
+    pPlayer->forcedTurnToLeft();
 }
 
 
 void HelloWorld::jumpKeyDown(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
     
-    pPlayer->turnToJump();
+    pPlayer->forcedTurnToJump();
   //  cout<<"player state:";pPlayer->print_sate();cout<<endl;
 
 

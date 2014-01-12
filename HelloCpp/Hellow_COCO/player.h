@@ -50,34 +50,32 @@ public:
         if(m_water)m_water->release();
     }
 public:
-    void print_sate()const ;
-public://init
     bool init(CCSize size,CCPoint postion,b2World*world);
-public:
-    void setWater(Cwater*water){
-        assert(water!=NULL);
-        assert(m_water==NULL);
-        m_water=water;
-        m_water->retain();
-    }
+    //----external ref
+    void setWater(Cwater*water);
+    //----update  condition
     void updateIsTouchSolid();
-public://move
+    //----print state
+    void print_sate()const ;
+    //----in state logic
     void run();
     void jump();
     void swim();
-public://turn to...
-    void turnToRight();
-    void turnToLeft();
-    void turnToStill();
-    void turnToJump();
+    //----switch state logic
+    //forced
+    void forcedTurnToRight();
+    void forcedTurnToLeft();
+    void forcedTurnToStill();
+    void forcedTurnToJump();
+    //automatic
     void turnToFallToGround();
     void turnToRunOutOfWater();
     void turnToFallToWater();
     void turnToFallCliff();
     void turnToJumpOutOfWater();
-public://effect
+    //----additional effect
     void pressWater();
-protected://state judgement
+protected:
     bool is_jump_still(int _state)const ;
     bool is_jump_forward(int _state)const ;
     bool is_forward(int _state)const ;
@@ -89,7 +87,6 @@ protected://state judgement
     bool is_xx_still(int _state)const ;
     bool is_xx_forward(int _state)const ;
     bool isFacingRight(int _state)const ;
-protected://set posture or action
     void runAction_runRight();
     void runAction_swimRight();
     void setPosture_jumpRight();
@@ -98,10 +95,8 @@ protected://set posture or action
     void runAction_swimLeft();
     void setPosture_jumpLeft();
     void setPosture_standLeft();
-protected:
     bool changeStateAndApearance(int newState);
     void setApearanceByState(int _state);
-protected:
     void createTexAndAni();
     void createB2Body(b2World* world,float rx,float ry,const b2Filter*fliter=NULL);
 protected:

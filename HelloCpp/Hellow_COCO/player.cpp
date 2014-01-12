@@ -271,7 +271,7 @@ void Cplayer::createB2Body(b2World* world,float rx,float ry,const b2Filter*flite
     //pb2Body
     pb2Body=body;
 }
-void Cplayer::turnToRight(){
+void Cplayer::forcedTurnToRight(){
     if(this->is_jump(m_state)){
         this->changeStateAndApearance(player_state_jump_forward_right);
     }else if(this->is_forward(m_state)||this->is_still(m_state)){
@@ -281,7 +281,7 @@ void Cplayer::turnToRight(){
     }
 
 }
-void Cplayer::turnToLeft(){
+void Cplayer::forcedTurnToLeft(){
     if(this->is_jump(m_state)){
         this->changeStateAndApearance(player_state_jump_forward_left);
     }else if(this->is_forward(m_state)||this->is_still(m_state)){
@@ -290,7 +290,7 @@ void Cplayer::turnToLeft(){
         this->changeStateAndApearance(player_state_swim_forward_left);
     }
 }
-void Cplayer::turnToStill(){
+void Cplayer::forcedTurnToStill(){
     //stop move
     b2Vec2 v=this->pb2Body->GetLinearVelocity();
     this->pb2Body->SetLinearVelocity(b2Vec2(0,v.y));
@@ -313,6 +313,12 @@ void Cplayer::turnToStill(){
         }
     }
 
+}
+void Cplayer::setWater(Cwater*water){
+    assert(water!=NULL);
+    assert(m_water==NULL);
+    m_water=water;
+    m_water->retain();
 }
 void Cplayer::updateIsTouchSolid() {
     int nContact=0;
@@ -337,7 +343,7 @@ void Cplayer::updateIsTouchSolid() {
     m_isTouchSolid=(nContact>0);
 }
 
-void Cplayer::turnToJump(){
+void Cplayer::forcedTurnToJump(){
     if(this->is_jump(m_state)==false){
         if(this->is_forward(m_state)){
             if(this->isFacingRight(m_state)){
