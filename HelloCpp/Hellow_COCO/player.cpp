@@ -24,47 +24,47 @@ CCAnimation* createAnimationWithStripeImage(string imageName){
 }
 void Cplayer::runAction_runRight(){
     this->setScaleX(fabsf(this->getScaleX()));
-    this->ani_runRight->setDelayPerUnit(0.13f);
-    this->runAction(CCRepeatForever::create(CCAnimate::create(this->ani_runRight)));
+    this->m_ani_runRight->setDelayPerUnit(0.13f);
+    this->runAction(CCRepeatForever::create(CCAnimate::create(this->m_ani_runRight)));
 }
 void Cplayer::runAction_swimRight(){
     this->setScaleX(fabsf(this->getScaleX()));
-    this->ani_swimRight->setDelayPerUnit(0.13f);
-    this->runAction(CCRepeatForever::create(CCAnimate::create(this->ani_swimRight)));
+    this->m_ani_swimRight->setDelayPerUnit(0.13f);
+    this->runAction(CCRepeatForever::create(CCAnimate::create(this->m_ani_swimRight)));
 }
 void Cplayer::setPosture_jumpRight(){
     this->setScaleX(fabsf(this->getScaleX()));
-    this->setTexture(this->tex_jumpRight);
-    this->setTextureRect(getTexRect(this->tex_jumpRight));
+    this->setTexture(this->m_tex_jumpRight);
+    this->setTextureRect(getTexRect(this->m_tex_jumpRight));
 }
 void Cplayer::setPosture_standRight(){
     this->setScaleX(fabsf(this->getScaleX()));
-    this->setTexture(this->tex_standRight);
-    this->setTextureRect(getTexRect(this->tex_standRight));
+    this->setTexture(this->m_tex_standRight);
+    this->setTextureRect(getTexRect(this->m_tex_standRight));
 }
 void Cplayer::runAction_runLeft(){
     this->setScaleX(-fabsf(this->getScaleX()));
-    this->ani_runRight->setDelayPerUnit(0.13f);
-    this->runAction(CCRepeatForever::create(CCAnimate::create(this->ani_runRight)));
+    this->m_ani_runRight->setDelayPerUnit(0.13f);
+    this->runAction(CCRepeatForever::create(CCAnimate::create(this->m_ani_runRight)));
 }
 void Cplayer::runAction_swimLeft(){
     this->setScaleX(-fabsf(this->getScaleX()));
-    this->ani_swimRight->setDelayPerUnit(0.13f);
-    this->runAction(CCRepeatForever::create(CCAnimate::create(this->ani_swimRight)));
+    this->m_ani_swimRight->setDelayPerUnit(0.13f);
+    this->runAction(CCRepeatForever::create(CCAnimate::create(this->m_ani_swimRight)));
 }
 void Cplayer::setPosture_jumpLeft(){
     this->setScaleX(-fabsf(this->getScaleX()));
-    this->setTexture(this->tex_jumpRight);
-    this->setTextureRect(getTexRect(this->tex_jumpRight));
+    this->setTexture(this->m_tex_jumpRight);
+    this->setTextureRect(getTexRect(this->m_tex_jumpRight));
 }
 void Cplayer::setPosture_standLeft(){
     this->setScaleX(-fabsf(this->getScaleX()));
-    this->setTexture(this->tex_standRight);
-    this->setTextureRect(getTexRect(this->tex_standRight));
+    this->setTexture(this->m_tex_standRight);
+    this->setTextureRect(getTexRect(this->m_tex_standRight));
 }
 
 void Cplayer::print_sate()const {
-    switch (state) {
+    switch (m_state) {
         case player_state_still_right:
             cout<<"still_right";
             break;
@@ -232,7 +232,7 @@ void Cplayer::createB2Body(b2World* world,float rx,float ry,const b2Filter*flite
         if(fliter!=NULL){
             fixtureDef.filter=*fliter;
         }
-        fixture_body=body->CreateFixture(&fixtureDef);
+        m_fixture_body=body->CreateFixture(&fixtureDef);
         
     }
     
@@ -248,7 +248,7 @@ void Cplayer::createB2Body(b2World* world,float rx,float ry,const b2Filter*flite
         if(fliter!=NULL){
             fixtureDef.filter=*fliter;
         }
-        fixture_foot=body->CreateFixture(&fixtureDef);
+        m_fixture_foot=body->CreateFixture(&fixtureDef);
         
     }
     //fixture_foot2
@@ -264,7 +264,7 @@ void Cplayer::createB2Body(b2World* world,float rx,float ry,const b2Filter*flite
         if(fliter!=NULL){
             fixtureDef.filter=*fliter;
         }
-        fixture_foot2=body->CreateFixture(&fixtureDef);
+        m_fixture_foot2=body->CreateFixture(&fixtureDef);
         
     }
 
@@ -272,21 +272,21 @@ void Cplayer::createB2Body(b2World* world,float rx,float ry,const b2Filter*flite
     pb2Body=body;
 }
 void Cplayer::turnToRight(){
-    if(this->is_jump(state)){
+    if(this->is_jump(m_state)){
         this->changeStateAndApearance(player_state_jump_forward_right);
-    }else if(this->is_forward(state)||this->is_still(state)){
+    }else if(this->is_forward(m_state)||this->is_still(m_state)){
         this->changeStateAndApearance(player_state_forward_right);
-    }else if(this->is_swim(state)){
+    }else if(this->is_swim(m_state)){
         this->changeStateAndApearance(player_state_swim_forward_right);
     }
 
 }
 void Cplayer::turnToLeft(){
-    if(this->is_jump(state)){
+    if(this->is_jump(m_state)){
         this->changeStateAndApearance(player_state_jump_forward_left);
-    }else if(this->is_forward(state)||this->is_still(state)){
+    }else if(this->is_forward(m_state)||this->is_still(m_state)){
         this->changeStateAndApearance(player_state_forward_left);
-    }else if(this->is_swim(state)){
+    }else if(this->is_swim(m_state)){
         this->changeStateAndApearance(player_state_swim_forward_left);
     }
 }
@@ -295,20 +295,20 @@ void Cplayer::turnToStill(){
     b2Vec2 v=this->pb2Body->GetLinearVelocity();
     this->pb2Body->SetLinearVelocity(b2Vec2(0,v.y));
     
-    if(this->isFacingRight(state)){
-        if(this->is_jump(state)){
+    if(this->isFacingRight(m_state)){
+        if(this->is_jump(m_state)){
             this->changeStateAndApearance(player_state_jump_still_right);
-        }else if(this->is_forward(state)||this->is_still(state)){
+        }else if(this->is_forward(m_state)||this->is_still(m_state)){
             this->changeStateAndApearance(player_state_still_right);
-        }else if(this->is_swim(state)){
+        }else if(this->is_swim(m_state)){
             this->changeStateAndApearance(player_state_swim_still_right);
         }
     }else{//facing left
-        if(this->is_jump(state)){
+        if(this->is_jump(m_state)){
             this->changeStateAndApearance(player_state_jump_still_left);
-        }else if(this->is_forward(state)||this->is_still(state)){
+        }else if(this->is_forward(m_state)||this->is_still(m_state)){
             this->changeStateAndApearance(player_state_still_left);
-        }else if(this->is_swim(state)){
+        }else if(this->is_swim(m_state)){
             this->changeStateAndApearance(player_state_swim_still_left);
         }
     }
@@ -327,26 +327,26 @@ void Cplayer::updateIsTouchSolid() {
         if(contact->IsTouching()==false)continue;
         b2Fixture*fixtureA=contact->GetFixtureA();
         b2Fixture*fixtureB=contact->GetFixtureB();
-        if(fixtureA==this->fixture_foot||fixtureA==this->fixture_foot2){
+        if(fixtureA==this->m_fixture_foot||fixtureA==this->m_fixture_foot2){
             nContact++;
         }
-        if(fixtureB==this->fixture_foot||fixtureB==this->fixture_foot2){
+        if(fixtureB==this->m_fixture_foot||fixtureB==this->m_fixture_foot2){
             nContact++;
         }
     }
-    isTouchSolid=(nContact>0);
+    m_isTouchSolid=(nContact>0);
 }
 
 void Cplayer::turnToJump(){
-    if(this->is_jump(state)==false){
-        if(this->is_forward(state)){
-            if(this->isFacingRight(state)){
+    if(this->is_jump(m_state)==false){
+        if(this->is_forward(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_jump_forward_right);
             }else{
                 this->changeStateAndApearance(player_state_jump_forward_left);
             }
-        }else if(this->is_still(state)){
-            if(this->isFacingRight(state)){
+        }else if(this->is_still(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_jump_still_right);
             }else{
                 this->changeStateAndApearance(player_state_jump_still_left);
@@ -358,16 +358,16 @@ void Cplayer::turnToJump(){
 }
 
 void Cplayer::turnToRunOutOfWater(Cwater*water){
-    const float waterSurfaceHeight=water->getSurfaceHeight();
-    if((this->boundingBox().getMinY()+this->boundingBox().getMaxY())/2>waterSurfaceHeight&&this->isTouchSolid){
-        if(this->is_xx_forward(state)){
-            if(this->isFacingRight(state)){
+     const float waterSurfaceHeight=water->getSurfaceHeight();
+    if((this->boundingBox().getMinY()+this->boundingBox().getMaxY())/2>waterSurfaceHeight&&this->m_isTouchSolid){
+        if(this->is_xx_forward(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_forward_right);
             }else{
                 this->changeStateAndApearance(player_state_forward_left);
             }
-        }else if(this->is_xx_still(state)){
-            if(this->isFacingRight(state)){
+        }else if(this->is_xx_still(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_still_right);
             }else{
                 this->changeStateAndApearance(player_state_still_left);
@@ -378,15 +378,15 @@ void Cplayer::turnToRunOutOfWater(Cwater*water){
 
 void Cplayer::turnToFallToWater(Cwater*water){
     const float waterSurfaceHeight=water->getSurfaceHeight();
-    if(this->boundingBox().getMinY()<waterSurfaceHeight&&this->isTouchSolid==false){
-        if(this->is_xx_forward(state)){
-            if(this->isFacingRight(state)){
+    if(this->boundingBox().getMinY()<waterSurfaceHeight&&this->m_isTouchSolid==false){
+        if(this->is_xx_forward(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_swim_forward_right);
             }else{
                 this->changeStateAndApearance(player_state_swim_forward_left);
             }
-        }else if(this->is_xx_still(state)){
-            if(this->isFacingRight(state)){
+        }else if(this->is_xx_still(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_swim_still_right);
             }else{
                 this->changeStateAndApearance(player_state_swim_still_left);
@@ -398,17 +398,17 @@ void Cplayer::turnToFallToWater(Cwater*water){
 }
 void Cplayer::turnToFallCliff(Cwater*water){
     const float waterSurfaceHeight=water->getSurfaceHeight();
-    if(this->is_jump(state)==false
-       &&this->isTouchSolid==false
+    if(this->is_jump(m_state)==false
+       &&this->m_isTouchSolid==false
        &&this->boundingBox().getMinY()>=waterSurfaceHeight){
-        if(this->is_xx_forward(state)){
-            if(this->isFacingRight(state)){
+        if(this->is_xx_forward(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_jump_forward_right);
             }else{
                 this->changeStateAndApearance(player_state_jump_forward_left);
             }
-        }else if(this->is_xx_still(state)){
-            if(this->isFacingRight(state)){
+        }else if(this->is_xx_still(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_jump_still_right);
             }else{
                 this->changeStateAndApearance(player_state_jump_still_left);
@@ -419,15 +419,15 @@ void Cplayer::turnToFallCliff(Cwater*water){
 }
 void Cplayer::turnToJumpOutOfWater(Cwater*water){
     const float waterSurfaceHeight=water->getSurfaceHeight();
-    if(this->boundingBox().getMinY()>waterSurfaceHeight&&this->isTouchSolid==false){
-        if(this->is_xx_forward(state)){
-            if(this->isFacingRight(state)){
+    if(this->boundingBox().getMinY()>waterSurfaceHeight&&this->m_isTouchSolid==false){
+        if(this->is_xx_forward(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_jump_forward_right);
             }else{
                 this->changeStateAndApearance(player_state_jump_forward_left);
             }
-        }else if(this->is_xx_still(state)){
-            if(this->isFacingRight(state)){
+        }else if(this->is_xx_still(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_jump_still_right);
             }else{
                 this->changeStateAndApearance(player_state_jump_still_left);
@@ -439,15 +439,15 @@ void Cplayer::turnToJumpOutOfWater(Cwater*water){
 
 void Cplayer::turnToFallToGround(Cwater*water){
     const float waterSurfaceHeight=water->getSurfaceHeight();
-    if(this->is_jump(state)&&this->isTouchSolid){
-        if(this->is_xx_forward(state)){
-            if(this->isFacingRight(state)){
+    if(this->is_jump(m_state)&&this->m_isTouchSolid){
+        if(this->is_xx_forward(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_forward_right);
             }else{
                 this->changeStateAndApearance(player_state_forward_left);
             }
-        }else if(this->is_xx_still(state)){
-            if(this->isFacingRight(state)){
+        }else if(this->is_xx_still(m_state)){
+            if(this->isFacingRight(m_state)){
                 this->changeStateAndApearance(player_state_still_right);
             }else{
                 this->changeStateAndApearance(player_state_still_left);
@@ -458,10 +458,10 @@ void Cplayer::turnToFallToGround(Cwater*water){
 bool Cplayer::changeStateAndApearance(int newState)
 //if state and apearance really changed, return true, else return false
 {
-    if(state!=newState){//if state is no difference with old state, do nothing and return false
-        state=newState;
+    if(m_state!=newState){//if state is no difference with old state, do nothing and return false
+        m_state=newState;
         this->stopAllActions();
-        setApearanceByState(state);
+        setApearanceByState(m_state);
         return true;
     }else{
         return false;
@@ -512,36 +512,36 @@ void Cplayer::setApearanceByState(int _state){
     
 }
 void Cplayer::createTexAndAni(){
-    this->ani_runRight=createAnimationWithStripeImage("data/global/tex/player_run_right.png");
-    this->ani_swimRight=createAnimationWithStripeImage("data/global/tex/player_swim_right.png");
-    this->tex_standRight=CCTextureCache::sharedTextureCache()->addImage("data/global/tex/stand_right.png");
-    this->tex_jumpRight=CCTextureCache::sharedTextureCache()->addImage("data/global/tex/jump_right.png");
-    this->initWithTexture(this->tex_standRight);
+    this->m_ani_runRight=createAnimationWithStripeImage("data/global/tex/player_run_right.png");
+    this->m_ani_swimRight=createAnimationWithStripeImage("data/global/tex/player_swim_right.png");
+    this->m_tex_standRight=CCTextureCache::sharedTextureCache()->addImage("data/global/tex/stand_right.png");
+    this->m_tex_jumpRight=CCTextureCache::sharedTextureCache()->addImage("data/global/tex/jump_right.png");
+    this->initWithTexture(this->m_tex_standRight);
 }
 void Cplayer::run(){
-    if(this->state==player_state_forward_right){
+    if(this->m_state==player_state_forward_right){
         this->changeVelocityXbyImpuse(5);
     }
-    if(this->state==player_state_forward_left){
+    if(this->m_state==player_state_forward_left){
         this->changeVelocityXbyImpuse(-5);
     }
 }
 void Cplayer::jump(){
-    if(this->state==player_state_jump_forward_right)
+    if(this->m_state==player_state_jump_forward_right)
     {
         this->changeVelocityXbyImpuse(5);
     }
-    if(this->state==player_state_jump_forward_left)
+    if(this->m_state==player_state_jump_forward_left)
     {
         this->changeVelocityXbyImpuse(-5);
     }
 }
 void Cplayer::swim(){
-    if(this->state==player_state_swim_forward_right)
+    if(this->m_state==player_state_swim_forward_right)
     {
         this->changeVelocityXbyImpuse(5);
     }
-    if(this->state==player_state_swim_forward_left)
+    if(this->m_state==player_state_swim_forward_left)
     {
         this->changeVelocityXbyImpuse(-5);
     }

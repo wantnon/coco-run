@@ -325,8 +325,6 @@ void HelloWorld::update(float dt)
     //swim
     pPlayer->swim();
 
-    //--------player store state
-    pPlayer->storeState();
     
     
 // this method is not acurate, use contact listener is better
