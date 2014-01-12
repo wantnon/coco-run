@@ -251,6 +251,7 @@
 		184C84D3185C44C80091D3BA /* iphone in Resources */ = {isa = PBXBuildFile; fileRef = 184C84D2185C44C80091D3BA /* iphone */; };
 		184C84D6185C47A20091D3BA /* HelloWorldScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 184C84D5185C47A20091D3BA /* HelloWorldScene.mm */; };
 		184C84DC185C483D0091D3BA /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 184C84D9185C483D0091D3BA /* libWeChatSDK.a */; };
+		1860D98B1882D72D002D9CA8 /* stateMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1860D9891882D72D002D9CA8 /* stateMachine.cpp */; };
 		189B0C1118169DFE003CDFEE /* button_dn.png in Resources */ = {isa = PBXBuildFile; fileRef = 189B0C0A18169DFE003CDFEE /* button_dn.png */; };
 		189B0C1218169DFE003CDFEE /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 189B0C0B18169DFE003CDFEE /* button.png */; };
 		189B0C211816A280003CDFEE /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189B0C181816A21F003CDFEE /* AppDelegate.cpp */; };
@@ -802,6 +803,8 @@
 		184C84D9185C483D0091D3BA /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		184C84DA185C483D0091D3BA /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		184C84DB185C483D0091D3BA /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		1860D9891882D72D002D9CA8 /* stateMachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stateMachine.cpp; sourceTree = "<group>"; };
+		1860D98A1882D72D002D9CA8 /* stateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stateMachine.h; sourceTree = "<group>"; };
 		189B0C0A18169DFE003CDFEE /* button_dn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_dn.png; sourceTree = "<group>"; };
 		189B0C0B18169DFE003CDFEE /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		189B0C181816A21F003CDFEE /* AppDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
@@ -1897,6 +1900,8 @@
 				57FDEC0F186008BF000D7A46 /* infiniteTerrainManager.h */,
 				184C844B185C43F00091D3BA /* myDef.cpp */,
 				184C844C185C43F00091D3BA /* myDef.h */,
+				1860D9891882D72D002D9CA8 /* stateMachine.cpp */,
+				1860D98A1882D72D002D9CA8 /* stateMachine.h */,
 				184C844D185C43F00091D3BA /* myfunc.cpp */,
 				184C844E185C43F00091D3BA /* myfunc.h */,
 				184C844F185C43F00091D3BA /* myObj.cpp */,
@@ -2400,6 +2405,7 @@
 				1839B55918029AC9005EA308 /* CCEditBoxImplAndroid.cpp in Sources */,
 				1839B55A18029AC9005EA308 /* CCEditBoxImplIOS.mm in Sources */,
 				1839B55B18029AC9005EA308 /* CCEditBoxImplMac.mm in Sources */,
+				1860D98B1882D72D002D9CA8 /* stateMachine.cpp in Sources */,
 				1839B55C18029AC9005EA308 /* CCEditBoxImplNone.cpp in Sources */,
 				1839B55D18029AC9005EA308 /* CCEditBoxImplTizen.cpp in Sources */,
 				1839B55E18029AC9005EA308 /* CCEditBoxImplWin.cpp in Sources */,

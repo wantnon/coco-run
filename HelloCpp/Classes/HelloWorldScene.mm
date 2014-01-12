@@ -233,42 +233,42 @@ void HelloWorld::weixinShare(CCObject *senderz, cocos2d::extension::CCControlEve
 
 
 void HelloWorld::rightKeyDown(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->forcedTurnToRight();
+    pPlayer->getStateMachine()->forcedTurnToRight();
 }
 
 void HelloWorld::rightKeyUpInside(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->forcedTurnToStill();
+    pPlayer->getStateMachine()->forcedTurnToStill();
     
 }
 void HelloWorld::rightKeyDragExit(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->forcedTurnToStill();
+    pPlayer->getStateMachine()->forcedTurnToStill();
 
 }
 void HelloWorld::rightKeyDragEnter(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->forcedTurnToRight();
+    pPlayer->getStateMachine()->forcedTurnToRight();
 }
 
 void HelloWorld::leftKeyDown(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->forcedTurnToLeft();
+    pPlayer->getStateMachine()->forcedTurnToLeft();
 
 }
 
 void HelloWorld::leftKeyUpInside(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->forcedTurnToStill();
+    pPlayer->getStateMachine()->forcedTurnToStill();
     
 }
 void HelloWorld::leftKeyDragExit(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->forcedTurnToStill();
+    pPlayer->getStateMachine()->forcedTurnToStill();
 
 }
 void HelloWorld::leftKeyDragEnter(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
-    pPlayer->forcedTurnToLeft();
+    pPlayer->getStateMachine()->forcedTurnToLeft();
 }
 
 
 void HelloWorld::jumpKeyDown(CCObject *senderz, cocos2d::extension::CCControlEvent controlEvent){
     
-    pPlayer->forcedTurnToJump();
+    pPlayer->getStateMachine()->forcedTurnToJump();
   //  cout<<"player state:";pPlayer->print_sate();cout<<endl;
 
 
@@ -318,36 +318,12 @@ void HelloWorld::update(float dt)
     
     //----get winSize
     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-    //-----------player move
-    //run
-    pPlayer->run();
-    //jump
-    pPlayer->jump();
-    //swim
-    pPlayer->swim();
 
     
-    
-// this method is not acurate, use contact listener is better
- //--------player update isTouchSolid
+    //----player condition update
     pPlayer->updateIsTouchSolid();
- //     cout<<" "<<pPlayer->isTouchSolid<<endl;
- 
-    //--------player turn to...
-    //fall to ground
-    pPlayer->turnToFallToGround();
-    //fall cliff
-    pPlayer->turnToFallCliff();
-    //fall to water
-    pPlayer->turnToFallToWater();
-    //jump out of water
-    pPlayer->turnToJumpOutOfWater();
-    //run out of water
-    pPlayer->turnToRunOutOfWater();
-
-    
-    //print player state
-    //cout<<"player state:";pPlayer->print_sate();cout<<" "<<pPlayer->isInWater<<" "<<pPlayer->isInWaterFoe;cout<<" "<<pPlayer->isTouchSolid<<endl;
+    //----player stateMachine execute
+    pPlayer->getStateMachine()->execute();
     
     //----player press water
     pPlayer->pressWater();

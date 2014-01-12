@@ -7,6 +7,333 @@
 //
 
 #include "player.h"
+//----stateMachine_player
+void CstateMachine_player::execute(){
+    //Cplayer*player=(Cplayer*)this->getObj();
+    //----in state
+    run();
+    jump();
+    swim();
+    //----state switch
+    turnToFallToGround();
+    turnToFallCliff();
+    turnToFallToWater();
+    turnToJumpOutOfWater();
+    turnToRunOutOfWater();
+
+}
+
+bool CstateMachine_player::is_jump_still()const {
+    return (m_state==player_state_jump_still_right||m_state==player_state_jump_still_left);
+}
+bool CstateMachine_player::is_jump_forward()const {
+    return (m_state==player_state_jump_forward_right||m_state==player_state_jump_forward_left);
+}
+bool CstateMachine_player::is_forward()const {
+    return (m_state==player_state_forward_left||m_state==player_state_forward_right);
+}
+bool CstateMachine_player::is_still()const {
+    return (m_state==player_state_still_left||m_state==player_state_still_right);
+}
+bool CstateMachine_player::is_swim_forward()const {
+    return (m_state==player_state_swim_forward_right||m_state==player_state_swim_forward_left);
+}
+bool CstateMachine_player::is_swim_still()const {
+    return (m_state==player_state_swim_still_right||m_state==player_state_swim_still_left);
+}
+bool CstateMachine_player::is_jump()const {
+    return (is_jump_forward()||is_jump_still());
+}
+bool CstateMachine_player::is_swim()const {
+    return (is_swim_forward()||is_swim_still());
+}
+bool CstateMachine_player::is_xx_still()const {
+    return (is_still()||is_jump_still()||is_swim_still());
+}
+bool CstateMachine_player::is_xx_forward()const {
+    return (is_forward()||is_jump_forward()||is_swim_forward());
+}
+bool CstateMachine_player::isFacingRight()const {
+    switch (m_state) {
+        case player_state_still_right:
+        case player_state_forward_right:
+        case player_state_jump_still_right:
+        case player_state_jump_forward_right:
+        case player_state_swim_still_right:
+        case player_state_swim_forward_right:
+            return true;
+            break;
+        case player_state_still_left:
+        case player_state_forward_left:
+        case player_state_jump_still_left:
+        case player_state_jump_forward_left:
+        case player_state_swim_still_left:
+        case player_state_swim_forward_left:
+            return false;
+            break;
+        default:
+            assert(false);
+            break;
+    }
+}
+
+void CstateMachine_player::print_sate()const {
+    switch (m_state) {
+        case player_state_still_right:
+            cout<<"still_right";
+            break;
+        case player_state_still_left:
+            cout<<"still_left";
+            break;
+        case player_state_forward_right:
+            cout<<"run_forward_right";
+            break;
+        case player_state_forward_left:
+            cout<<"run_forward_left";
+            break;
+        case player_state_jump_still_right:
+            cout<<"jump_still_right";
+            break;
+        case player_state_jump_still_left:
+            cout<<"jump_still_left";
+            break;
+        case player_state_jump_forward_right:
+            cout<<"jump_foward_right";
+            break;
+        case player_state_jump_forward_left:
+            cout<<"jump_forward_left";
+            break;
+        case player_state_swim_still_right:
+            cout<<"swim_still_right";
+            break;
+        case player_state_swim_still_left:
+            cout<<"swim_still_left";
+            break;
+        case player_state_swim_forward_right:
+            cout<<"swim_forward_right";
+            break;
+        case player_state_swim_forward_left:
+            cout<<"swim_forward_left";
+            break;
+        default:
+            assert(false);
+            break;
+    }
+}
+bool CstateMachine_player::changeStateAndApearance(int newState)
+//if state and apearance really changed, return true, else return false
+{
+    if(m_state!=newState){//if state is no difference with old state, do nothing and return false
+        m_state=newState;
+        ((Cplayer*)m_obj)->stopAllActions();
+        ((Cplayer*)m_obj)->setApearanceByState(m_state);
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
+void CstateMachine_player::run(){
+    if(this->m_state==player_state_forward_right){
+        m_obj->changeVelocityXbyImpuse(5);
+    }
+    if(this->m_state==player_state_forward_left){
+        m_obj->changeVelocityXbyImpuse(-5);
+    }
+}
+void CstateMachine_player::jump(){
+    if(this->m_state==player_state_jump_forward_right)
+    {
+        m_obj->changeVelocityXbyImpuse(5);
+    }
+    if(this->m_state==player_state_jump_forward_left)
+    {
+        m_obj->changeVelocityXbyImpuse(-5);
+    }
+}
+void CstateMachine_player::swim(){
+    if(this->m_state==player_state_swim_forward_right)
+    {
+        m_obj->changeVelocityXbyImpuse(5);
+    }
+    if(this->m_state==player_state_swim_forward_left)
+    {
+        m_obj->changeVelocityXbyImpuse(-5);
+    }
+}
+
+
+
+void CstateMachine_player::forcedTurnToRight(){
+    if(this->is_jump()){
+        this->changeStateAndApearance(player_state_jump_forward_right);
+    }else if(this->is_forward()||this->is_still()){
+        this->changeStateAndApearance(player_state_forward_right);
+    }else if(this->is_swim()){
+        this->changeStateAndApearance(player_state_swim_forward_right);
+    }
+    
+}
+void CstateMachine_player::forcedTurnToLeft(){
+    if(this->is_jump()){
+        this->changeStateAndApearance(player_state_jump_forward_left);
+    }else if(this->is_forward()||this->is_still()){
+        this->changeStateAndApearance(player_state_forward_left);
+    }else if(this->is_swim()){
+        this->changeStateAndApearance(player_state_swim_forward_left);
+    }
+}
+void CstateMachine_player::forcedTurnToStill(){
+    //stop move
+    b2Vec2 v=m_obj->pb2Body->GetLinearVelocity();
+    m_obj->pb2Body->SetLinearVelocity(b2Vec2(0,v.y));
+    
+    if(this->isFacingRight()){
+        if(this->is_jump()){
+            this->changeStateAndApearance(player_state_jump_still_right);
+        }else if(this->is_forward()||this->is_still()){
+            this->changeStateAndApearance(player_state_still_right);
+        }else if(this->is_swim()){
+            this->changeStateAndApearance(player_state_swim_still_right);
+        }
+    }else{//facing left
+        if(this->is_jump()){
+            this->changeStateAndApearance(player_state_jump_still_left);
+        }else if(this->is_forward()||this->is_still()){
+            this->changeStateAndApearance(player_state_still_left);
+        }else if(this->is_swim()){
+            this->changeStateAndApearance(player_state_swim_still_left);
+        }
+    }
+    
+}
+
+void CstateMachine_player::forcedTurnToJump(){
+    if(this->is_jump()==false){
+        if(this->is_forward()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_jump_forward_right);
+            }else{
+                this->changeStateAndApearance(player_state_jump_forward_left);
+            }
+        }else if(this->is_still()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_jump_still_right);
+            }else{
+                this->changeStateAndApearance(player_state_jump_still_left);
+            }
+        }
+        m_obj->changeVelocityYbyImpuse(10.8);
+    }
+    
+}
+
+void CstateMachine_player::turnToRunOutOfWater(){
+    Cplayer*player=(Cplayer*)m_obj;
+    const float waterSurfaceHeight=player->m_water->getSurfaceHeight();
+    if((player->boundingBox().getMinY()+player->boundingBox().getMaxY())/2>waterSurfaceHeight&&player->m_isTouchSolid){
+        if(this->is_xx_forward()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_forward_right);
+            }else{
+                this->changeStateAndApearance(player_state_forward_left);
+            }
+        }else if(this->is_xx_still()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_still_right);
+            }else{
+                this->changeStateAndApearance(player_state_still_left);
+            }
+        }
+    }
+}
+
+void CstateMachine_player::turnToFallToWater(){
+    Cplayer*player=(Cplayer*)m_obj;
+    const float waterSurfaceHeight=player->m_water->getSurfaceHeight();
+    if(player->boundingBox().getMinY()<waterSurfaceHeight&&player->m_isTouchSolid==false){
+        if(this->is_xx_forward()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_swim_forward_right);
+            }else{
+                this->changeStateAndApearance(player_state_swim_forward_left);
+            }
+        }else if(this->is_xx_still()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_swim_still_right);
+            }else{
+                this->changeStateAndApearance(player_state_swim_still_left);
+            }
+        }
+        
+    }
+    
+}
+void CstateMachine_player::turnToFallCliff(){
+    Cplayer*player=(Cplayer*)m_obj;
+    const float waterSurfaceHeight=player->m_water->getSurfaceHeight();
+    if(this->is_jump()==false
+       &&player->m_isTouchSolid==false
+       &&player->boundingBox().getMinY()>=waterSurfaceHeight){
+        if(this->is_xx_forward()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_jump_forward_right);
+            }else{
+                this->changeStateAndApearance(player_state_jump_forward_left);
+            }
+        }else if(this->is_xx_still()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_jump_still_right);
+            }else{
+                this->changeStateAndApearance(player_state_jump_still_left);
+            }
+        }
+    }
+    
+}
+void CstateMachine_player::turnToJumpOutOfWater(){
+    Cplayer*player=(Cplayer*)m_obj;
+    const float waterSurfaceHeight=player->m_water->getSurfaceHeight();
+    if(player->boundingBox().getMinY()>waterSurfaceHeight&&player->m_isTouchSolid==false){
+        if(this->is_xx_forward()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_jump_forward_right);
+            }else{
+                this->changeStateAndApearance(player_state_jump_forward_left);
+            }
+        }else if(this->is_xx_still()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_jump_still_right);
+            }else{
+                this->changeStateAndApearance(player_state_jump_still_left);
+            }
+        }
+    }
+    
+}
+
+void CstateMachine_player::turnToFallToGround(){
+    Cplayer*player=(Cplayer*)m_obj;
+    const float waterSurfaceHeight=player->m_water->getSurfaceHeight();
+    if(this->is_jump()&&player->m_isTouchSolid){
+        if(this->is_xx_forward()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_forward_right);
+            }else{
+                this->changeStateAndApearance(player_state_forward_left);
+            }
+        }else if(this->is_xx_still()){
+            if(this->isFacingRight()){
+                this->changeStateAndApearance(player_state_still_right);
+            }else{
+                this->changeStateAndApearance(player_state_still_left);
+            }
+        }
+    }
+}
+
+//----player
 CCAnimation* createAnimationWithStripeTex(CCTexture2D*stripeTex,string aniName){
     float w=stripeTex->getContentSize().width;
     float h=stripeTex->getContentSize().height;
@@ -62,103 +389,6 @@ void Cplayer::setPosture_standLeft(){
     this->setTexture(this->m_tex_standRight);
     this->setTextureRect(getTexRect(this->m_tex_standRight));
 }
-
-void Cplayer::print_sate()const {
-    switch (m_state) {
-        case player_state_still_right:
-            cout<<"still_right";
-            break;
-        case player_state_still_left:
-            cout<<"still_left";
-            break;
-        case player_state_forward_right:
-            cout<<"run_forward_right";
-            break;
-        case player_state_forward_left:
-            cout<<"run_forward_left";
-            break;
-        case player_state_jump_still_right:
-            cout<<"jump_still_right";
-            break;
-        case player_state_jump_still_left:
-            cout<<"jump_still_left";
-            break;
-        case player_state_jump_forward_right:
-            cout<<"jump_foward_right";
-            break;
-        case player_state_jump_forward_left:
-            cout<<"jump_forward_left";
-            break;
-        case player_state_swim_still_right:
-            cout<<"swim_still_right";
-            break;
-        case player_state_swim_still_left:
-            cout<<"swim_still_left";
-            break;
-        case player_state_swim_forward_right:
-            cout<<"swim_forward_right";
-            break;
-        case player_state_swim_forward_left:
-            cout<<"swim_forward_left";
-            break;
-            default:
-            assert(false);
-            break;
-    }
-}
-bool Cplayer::is_jump_still(int _state)const {
-    return (_state==player_state_jump_still_right||_state==player_state_jump_still_left);
-}
-bool Cplayer::is_jump_forward(int _state)const {
-    return (_state==player_state_jump_forward_right||_state==player_state_jump_forward_left);
-}
-bool Cplayer::is_forward(int _state)const {
-    return (_state==player_state_forward_left||_state==player_state_forward_right);
-}
-bool Cplayer::is_still(int _state)const {
-    return (_state==player_state_still_left||_state==player_state_still_right);
-}
-bool Cplayer::is_swim_forward(int _state)const {
-    return (_state==player_state_swim_forward_right||_state==player_state_swim_forward_left);
-}
-bool Cplayer::is_swim_still(int _state)const {
-    return (_state==player_state_swim_still_right||_state==player_state_swim_still_left);
-}
-bool Cplayer::is_jump(int _state)const {
-    return (is_jump_forward(_state)||is_jump_still(_state));
-}
-bool Cplayer::is_swim(int _state)const {
-    return (is_swim_forward(_state)||is_swim_still(_state));
-}
-bool Cplayer::is_xx_still(int _state)const {
-    return (is_still(_state)||is_jump_still(_state)||is_swim_still(_state));
-}
-bool Cplayer::is_xx_forward(int _state)const {
-    return (is_forward(_state)||is_jump_forward(_state)||is_swim_forward(_state));
-}
-bool Cplayer::isFacingRight(int _state)const {
-    switch (_state) {
-        case player_state_still_right:
-        case player_state_forward_right:
-        case player_state_jump_still_right:
-        case player_state_jump_forward_right:
-        case player_state_swim_still_right:
-        case player_state_swim_forward_right:
-            return true;
-            break;
-        case player_state_still_left:
-        case player_state_forward_left:
-        case player_state_jump_still_left:
-        case player_state_jump_forward_left:
-        case player_state_swim_still_left:
-        case player_state_swim_forward_left:
-            return false;
-            break;
-        default:
-            assert(false);
-            break;
-    }
-}
 bool Cplayer::init(CCSize size,CCPoint postion,b2World*world){
     this->createTexAndAni();
     b2Filter filter;
@@ -168,6 +398,12 @@ bool Cplayer::init(CCSize size,CCPoint postion,b2World*world){
     this->pb2Body->SetTransform(b2Vec2(postion.x/PTM_RATIO, postion.y/PTM_RATIO), 0);
     this->pb2Body->SetType(b2_dynamicBody);
     this->pb2Body->SetFixedRotation(true);
+    //
+    assert(m_stateMachine==NULL);
+    CstateMachine_player*stateMachine=CstateMachine_player::create();
+    stateMachine->setObj(this);
+    stateMachine->retain();
+    m_stateMachine=stateMachine;
     return true;
 }
 
@@ -271,49 +507,6 @@ void Cplayer::createB2Body(b2World* world,float rx,float ry,const b2Filter*flite
     //pb2Body
     pb2Body=body;
 }
-void Cplayer::forcedTurnToRight(){
-    if(this->is_jump(m_state)){
-        this->changeStateAndApearance(player_state_jump_forward_right);
-    }else if(this->is_forward(m_state)||this->is_still(m_state)){
-        this->changeStateAndApearance(player_state_forward_right);
-    }else if(this->is_swim(m_state)){
-        this->changeStateAndApearance(player_state_swim_forward_right);
-    }
-
-}
-void Cplayer::forcedTurnToLeft(){
-    if(this->is_jump(m_state)){
-        this->changeStateAndApearance(player_state_jump_forward_left);
-    }else if(this->is_forward(m_state)||this->is_still(m_state)){
-        this->changeStateAndApearance(player_state_forward_left);
-    }else if(this->is_swim(m_state)){
-        this->changeStateAndApearance(player_state_swim_forward_left);
-    }
-}
-void Cplayer::forcedTurnToStill(){
-    //stop move
-    b2Vec2 v=this->pb2Body->GetLinearVelocity();
-    this->pb2Body->SetLinearVelocity(b2Vec2(0,v.y));
-    
-    if(this->isFacingRight(m_state)){
-        if(this->is_jump(m_state)){
-            this->changeStateAndApearance(player_state_jump_still_right);
-        }else if(this->is_forward(m_state)||this->is_still(m_state)){
-            this->changeStateAndApearance(player_state_still_right);
-        }else if(this->is_swim(m_state)){
-            this->changeStateAndApearance(player_state_swim_still_right);
-        }
-    }else{//facing left
-        if(this->is_jump(m_state)){
-            this->changeStateAndApearance(player_state_jump_still_left);
-        }else if(this->is_forward(m_state)||this->is_still(m_state)){
-            this->changeStateAndApearance(player_state_still_left);
-        }else if(this->is_swim(m_state)){
-            this->changeStateAndApearance(player_state_swim_still_left);
-        }
-    }
-
-}
 void Cplayer::setWater(Cwater*water){
     assert(water!=NULL);
     assert(m_water==NULL);
@@ -342,128 +535,11 @@ void Cplayer::updateIsTouchSolid() {
     }
     m_isTouchSolid=(nContact>0);
 }
-
-void Cplayer::forcedTurnToJump(){
-    if(this->is_jump(m_state)==false){
-        if(this->is_forward(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_jump_forward_right);
-            }else{
-                this->changeStateAndApearance(player_state_jump_forward_left);
-            }
-        }else if(this->is_still(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_jump_still_right);
-            }else{
-                this->changeStateAndApearance(player_state_jump_still_left);
-            }
-        }
-        this->changeVelocityYbyImpuse(10.8);
-    }
-    
-}
-
-void Cplayer::turnToRunOutOfWater(){
-     const float waterSurfaceHeight=m_water->getSurfaceHeight();
-    if((this->boundingBox().getMinY()+this->boundingBox().getMaxY())/2>waterSurfaceHeight&&this->m_isTouchSolid){
-        if(this->is_xx_forward(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_forward_right);
-            }else{
-                this->changeStateAndApearance(player_state_forward_left);
-            }
-        }else if(this->is_xx_still(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_still_right);
-            }else{
-                this->changeStateAndApearance(player_state_still_left);
-            }
-        }
-    }
-}
-
-void Cplayer::turnToFallToWater(){
-    const float waterSurfaceHeight=m_water->getSurfaceHeight();
-    if(this->boundingBox().getMinY()<waterSurfaceHeight&&this->m_isTouchSolid==false){
-        if(this->is_xx_forward(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_swim_forward_right);
-            }else{
-                this->changeStateAndApearance(player_state_swim_forward_left);
-            }
-        }else if(this->is_xx_still(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_swim_still_right);
-            }else{
-                this->changeStateAndApearance(player_state_swim_still_left);
-            }
-        }
-        
-    }
-    
-}
-void Cplayer::turnToFallCliff(){
-    const float waterSurfaceHeight=m_water->getSurfaceHeight();
-    if(this->is_jump(m_state)==false
-       &&this->m_isTouchSolid==false
-       &&this->boundingBox().getMinY()>=waterSurfaceHeight){
-        if(this->is_xx_forward(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_jump_forward_right);
-            }else{
-                this->changeStateAndApearance(player_state_jump_forward_left);
-            }
-        }else if(this->is_xx_still(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_jump_still_right);
-            }else{
-                this->changeStateAndApearance(player_state_jump_still_left);
-            }
-        }
-    }
-    
-}
-void Cplayer::turnToJumpOutOfWater(){
-    const float waterSurfaceHeight=m_water->getSurfaceHeight();
-    if(this->boundingBox().getMinY()>waterSurfaceHeight&&this->m_isTouchSolid==false){
-        if(this->is_xx_forward(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_jump_forward_right);
-            }else{
-                this->changeStateAndApearance(player_state_jump_forward_left);
-            }
-        }else if(this->is_xx_still(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_jump_still_right);
-            }else{
-                this->changeStateAndApearance(player_state_jump_still_left);
-            }
-        }
-    }
-    
-}
 void Cplayer::pressWater(){
     bool isInWater=(this->boundingBox().getMinY()<m_water->getSurfaceHeight());
     CmyObj::pressWater(m_water,isInWater,15,30);
 }
-void Cplayer::turnToFallToGround(){
-    const float waterSurfaceHeight=m_water->getSurfaceHeight();
-    if(this->is_jump(m_state)&&this->m_isTouchSolid){
-        if(this->is_xx_forward(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_forward_right);
-            }else{
-                this->changeStateAndApearance(player_state_forward_left);
-            }
-        }else if(this->is_xx_still(m_state)){
-            if(this->isFacingRight(m_state)){
-                this->changeStateAndApearance(player_state_still_right);
-            }else{
-                this->changeStateAndApearance(player_state_still_left);
-            }
-        }
-    }
-}
+/*
 bool Cplayer::changeStateAndApearance(int newState)
 //if state and apearance really changed, return true, else return false
 {
@@ -475,7 +551,7 @@ bool Cplayer::changeStateAndApearance(int newState)
     }else{
         return false;
     }
-}
+}*/
 void Cplayer::setApearanceByState(int _state){
     switch (_state) {
         case player_state_still_right:
@@ -527,33 +603,3 @@ void Cplayer::createTexAndAni(){
     this->m_tex_jumpRight=CCTextureCache::sharedTextureCache()->addImage("data/global/tex/jump_right.png");
     this->initWithTexture(this->m_tex_standRight);
 }
-void Cplayer::run(){
-    if(this->m_state==player_state_forward_right){
-        this->changeVelocityXbyImpuse(5);
-    }
-    if(this->m_state==player_state_forward_left){
-        this->changeVelocityXbyImpuse(-5);
-    }
-}
-void Cplayer::jump(){
-    if(this->m_state==player_state_jump_forward_right)
-    {
-        this->changeVelocityXbyImpuse(5);
-    }
-    if(this->m_state==player_state_jump_forward_left)
-    {
-        this->changeVelocityXbyImpuse(-5);
-    }
-}
-void Cplayer::swim(){
-    if(this->m_state==player_state_swim_forward_right)
-    {
-        this->changeVelocityXbyImpuse(5);
-    }
-    if(this->m_state==player_state_swim_forward_left)
-    {
-        this->changeVelocityXbyImpuse(-5);
-    }
-}
-
-
