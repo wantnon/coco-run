@@ -150,6 +150,7 @@ bool HelloWorld::init()
         pPlayer = new Cplayer(world);
         pPlayer->autorelease();
         pPlayer->init(CCSize(128,128), CCPoint(300,600), world);
+        pPlayer->setWater(water);
         rollingSceneRoot->addChild(pPlayer,100);
         pPlayer->name="player";
     }
@@ -333,25 +334,25 @@ void HelloWorld::update(float dt)
  //     cout<<" "<<pPlayer->isTouchSolid<<endl;
  
     //--------player update isInWater
-    pPlayer->updateIsInWater(water);
+    pPlayer->updateIsInWater();
     //--------player turn to...
     //fall to ground
-    pPlayer->turnToFallToGround(water);
+    pPlayer->turnToFallToGround();
     //fall cliff
-    pPlayer->turnToFallCliff(water);
+    pPlayer->turnToFallCliff();
     //fall to water
-    pPlayer->turnToFallToWater(water);
+    pPlayer->turnToFallToWater();
     //jump out of water
-    pPlayer->turnToJumpOutOfWater(water);
+    pPlayer->turnToJumpOutOfWater();
     //run out of water
-    pPlayer->turnToRunOutOfWater(water);
+    pPlayer->turnToRunOutOfWater();
 
     
     //print player state
     //cout<<"player state:";pPlayer->print_sate();cout<<" "<<pPlayer->isInWater<<" "<<pPlayer->isInWaterFoe;cout<<" "<<pPlayer->isTouchSolid<<endl;
     
     //----player press water
-    pPlayer->pressWater(water);
+    pPlayer->pressWater();
 
     
     //----camera of rollingScene follow player

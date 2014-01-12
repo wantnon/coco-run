@@ -45,14 +45,24 @@ public:
         m_tex_jumpRight=NULL;
         m_isInWater=false;
         m_isTouchSolid=false;
+        m_water=NULL;
+    }
+    virtual~Cplayer(){
+        if(m_water)m_water->release();
     }
 public:
     void print_sate()const ;
 public://init
     bool init(CCSize size,CCPoint postion,b2World*world);
 public:
-    void updateIsInWater(Cwater*water){
-        m_isInWater=(this->boundingBox().getMinY()<water->getSurfaceHeight());
+    void setWater(Cwater*water){
+        assert(water!=NULL);
+        assert(m_water==NULL);
+        m_water=water;
+        m_water->retain();
+    }
+    void updateIsInWater(){
+        m_isInWater=(this->boundingBox().getMinY()<m_water->getSurfaceHeight());
     }
     void updateIsTouchSolid();
 public://move
@@ -64,14 +74,14 @@ public://turn to...
     void turnToLeft();
     void turnToStill();
     void turnToJump();
-    void turnToFallToGround(Cwater*water);
-    void turnToRunOutOfWater(Cwater*water);
-    void turnToFallToWater(Cwater*water);
-    void turnToFallCliff(Cwater*water);
-    void turnToJumpOutOfWater(Cwater*water);
+    void turnToFallToGround();
+    void turnToRunOutOfWater();
+    void turnToFallToWater();
+    void turnToFallCliff();
+    void turnToJumpOutOfWater();
 public://effect
-    void pressWater(Cwater*water){
-        CmyObj::pressWater(water, m_isInWater,15,30);
+    void pressWater(){
+        CmyObj::pressWater(m_water, m_isInWater,15,30);
     }
     
 protected://state judgement
@@ -112,6 +122,7 @@ protected:
     b2Fixture*m_fixture_foot2;
     bool m_isInWater;
     bool m_isTouchSolid;
+    Cwater*m_water;
 
 };
 #endif /* defined(__mybox2dtest__player__) */

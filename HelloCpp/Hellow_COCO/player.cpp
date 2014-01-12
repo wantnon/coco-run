@@ -357,8 +357,8 @@ void Cplayer::turnToJump(){
     
 }
 
-void Cplayer::turnToRunOutOfWater(Cwater*water){
-     const float waterSurfaceHeight=water->getSurfaceHeight();
+void Cplayer::turnToRunOutOfWater(){
+     const float waterSurfaceHeight=m_water->getSurfaceHeight();
     if((this->boundingBox().getMinY()+this->boundingBox().getMaxY())/2>waterSurfaceHeight&&this->m_isTouchSolid){
         if(this->is_xx_forward(m_state)){
             if(this->isFacingRight(m_state)){
@@ -376,8 +376,8 @@ void Cplayer::turnToRunOutOfWater(Cwater*water){
     }
 }
 
-void Cplayer::turnToFallToWater(Cwater*water){
-    const float waterSurfaceHeight=water->getSurfaceHeight();
+void Cplayer::turnToFallToWater(){
+    const float waterSurfaceHeight=m_water->getSurfaceHeight();
     if(this->boundingBox().getMinY()<waterSurfaceHeight&&this->m_isTouchSolid==false){
         if(this->is_xx_forward(m_state)){
             if(this->isFacingRight(m_state)){
@@ -396,8 +396,8 @@ void Cplayer::turnToFallToWater(Cwater*water){
     }
     
 }
-void Cplayer::turnToFallCliff(Cwater*water){
-    const float waterSurfaceHeight=water->getSurfaceHeight();
+void Cplayer::turnToFallCliff(){
+    const float waterSurfaceHeight=m_water->getSurfaceHeight();
     if(this->is_jump(m_state)==false
        &&this->m_isTouchSolid==false
        &&this->boundingBox().getMinY()>=waterSurfaceHeight){
@@ -417,8 +417,8 @@ void Cplayer::turnToFallCliff(Cwater*water){
     }
     
 }
-void Cplayer::turnToJumpOutOfWater(Cwater*water){
-    const float waterSurfaceHeight=water->getSurfaceHeight();
+void Cplayer::turnToJumpOutOfWater(){
+    const float waterSurfaceHeight=m_water->getSurfaceHeight();
     if(this->boundingBox().getMinY()>waterSurfaceHeight&&this->m_isTouchSolid==false){
         if(this->is_xx_forward(m_state)){
             if(this->isFacingRight(m_state)){
@@ -437,8 +437,8 @@ void Cplayer::turnToJumpOutOfWater(Cwater*water){
     
 }
 
-void Cplayer::turnToFallToGround(Cwater*water){
-    const float waterSurfaceHeight=water->getSurfaceHeight();
+void Cplayer::turnToFallToGround(){
+    const float waterSurfaceHeight=m_water->getSurfaceHeight();
     if(this->is_jump(m_state)&&this->m_isTouchSolid){
         if(this->is_xx_forward(m_state)){
             if(this->isFacingRight(m_state)){
