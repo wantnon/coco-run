@@ -436,7 +436,10 @@ void Cplayer::turnToJumpOutOfWater(){
     }
     
 }
-
+void Cplayer::pressWater(){
+    bool isInWater=(this->boundingBox().getMinY()<m_water->getSurfaceHeight());
+    CmyObj::pressWater(m_water,isInWater,15,30);
+}
 void Cplayer::turnToFallToGround(){
     const float waterSurfaceHeight=m_water->getSurfaceHeight();
     if(this->is_jump(m_state)&&this->m_isTouchSolid){

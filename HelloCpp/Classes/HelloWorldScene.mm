@@ -333,8 +333,6 @@ void HelloWorld::update(float dt)
     pPlayer->updateIsTouchSolid();
  //     cout<<" "<<pPlayer->isTouchSolid<<endl;
  
-    //--------player update isInWater
-    pPlayer->updateIsInWater();
     //--------player turn to...
     //fall to ground
     pPlayer->turnToFallToGround();

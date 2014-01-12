@@ -43,7 +43,6 @@ public:
         m_ani_swimRight=NULL;
         m_tex_standRight=NULL;
         m_tex_jumpRight=NULL;
-        m_isInWater=false;
         m_isTouchSolid=false;
         m_water=NULL;
     }
@@ -61,9 +60,6 @@ public:
         m_water=water;
         m_water->retain();
     }
-    void updateIsInWater(){
-        m_isInWater=(this->boundingBox().getMinY()<m_water->getSurfaceHeight());
-    }
     void updateIsTouchSolid();
 public://move
     void run();
@@ -80,10 +76,7 @@ public://turn to...
     void turnToFallCliff();
     void turnToJumpOutOfWater();
 public://effect
-    void pressWater(){
-        CmyObj::pressWater(m_water, m_isInWater,15,30);
-    }
-    
+    void pressWater();
 protected://state judgement
     bool is_jump_still(int _state)const ;
     bool is_jump_forward(int _state)const ;
@@ -120,7 +113,6 @@ protected:
     b2Fixture*m_fixture_body;
     b2Fixture*m_fixture_foot;
     b2Fixture*m_fixture_foot2;
-    bool m_isInWater;
     bool m_isTouchSolid;
     Cwater*m_water;
 
